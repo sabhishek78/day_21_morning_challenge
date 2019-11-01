@@ -10,7 +10,36 @@
 // Example
 // trackRobot([20, 30, 10, 40]) ➞ [-10, 10]
 List<int> trackRobot(List<int> movements){
-  return null;
+  int x=0;
+  int y=0;
+  List<int> currentPosition=[];
+  for(int i=0;i<movements.length;i++){
+    if(i % 4==0)
+      {
+        y=y+movements[i];
+        print(x);
+        print(y);
+      }
+    else if(i%4==1){
+      x=x+movements[i];
+      print(x);
+      print(y);
+    }
+    else if(i%4==2){
+      y=y-movements[i];
+      print(x);
+      print(y);
+    }
+   else if(i%4==3){
+      x=x-movements[i];
+      print(x);
+      print(y);
+    }
+  }
+ currentPosition.add(x);
+  currentPosition.add(y);
+
+  return currentPosition;
 }
 
 // Challenge 3
@@ -36,5 +65,43 @@ List<Map> products = [
   { 'number': 8, 'price': 220, 'name': 'Potato chips' },
   { 'number': 9, 'price': 80,  'name': 'Small snack' },
 ];
+Map<String,dynamic> vendingMachine(int amount, int productNumber){
+  Map product =searchForProduct(productNumber);
+  int productValue=product['price'];
+  String productName=product['name'];
 
-main() {}
+  int changeValue=amount-productValue;
+  if(changeValue<0){
+    print("Insufficient Money");
+    return null;
+  }
+  List <int>coins=[100,50,20,10,5];
+  List<int> changeReturn=[];
+  coins.forEach((coin){
+    int coinCount= changeValue~/ coin;
+    changeValue=changeValue%coin;
+    changeReturn.addAll((List.generate(coinCount,(index)=> coin )));
+
+  });
+    return {'product': productName,'change': changeReturn};
+}
+Map searchForProduct(int productNumber){
+  Map result;
+  products.forEach((productMap){
+    if(productMap.containsValue(productNumber)){
+      result =productMap;
+    }
+  });
+  return result;
+}
+
+main() {
+  print(trackRobot([20, 30, 10, 40]));
+  print(trackRobot([-20, 30, -10, 40]));
+  print(trackRobot([]));
+  print(vendingMachine(500, 1));
+  print(vendingMachine(500, 4));
+  print(vendingMachine(50, 4));
+
+
+}
